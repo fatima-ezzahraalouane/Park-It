@@ -49,9 +49,19 @@ class ParkingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $parking = Parking::findOrFail($id);
+
+        $request->validate([
+            'name' => 'string|max:255',
+            'location' => 'string',
+            'total_spots' => 'integer|min:1',
+        ]);
+
+        $parking->update($request->all());
+
+        return response()->json($parking, 200);
     }
 
     /**
