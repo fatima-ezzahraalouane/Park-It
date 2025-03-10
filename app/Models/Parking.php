@@ -10,4 +10,10 @@ class Parking extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'location', 'total_spots', 'available_spots'];
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
 }
