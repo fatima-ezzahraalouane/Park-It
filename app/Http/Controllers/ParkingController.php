@@ -68,11 +68,15 @@ class ParkingController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-    {
-        $parking = Parking::findOrFail($id);
+{
+    $parking = Parking::find($id);
 
-        $parking->delete();
-
-        return response()->json(['message' => 'Parking supprimé avec succès'], 200);
+    if (!$parking) {
+        return response()->json(['message' => 'Parking non trouvé'], 404);
     }
+
+    $parking->delete();
+    return response()->json(['message' => 'Parking supprimé avec succès'], 200);
+}
+
 }
