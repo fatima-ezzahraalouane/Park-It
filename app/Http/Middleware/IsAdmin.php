@@ -13,8 +13,12 @@ class IsAdmin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        if (auth()->user() && auth()->user()->role === 'admin') {
+            return $next($request);
+        }
+        
+        return response()->json(['message' => 'Accès refusé. Vous devez étre administrateur.'], 403);
     }
 }
