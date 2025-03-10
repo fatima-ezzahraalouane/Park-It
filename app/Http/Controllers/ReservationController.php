@@ -45,6 +45,11 @@ class ReservationController extends Controller
             'end_time' => $request->end_time,
             'status' => 'confirmed',
         ]);
+
+        // diminuer le nombre de places disponibles
+        $parking->decrement('available_spots');
+
+        return response()->json($reservation, 201);
     }
 
     /**
