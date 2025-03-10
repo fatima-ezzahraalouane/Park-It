@@ -18,24 +18,24 @@ use App\Http\Controllers\ParkingController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Route pour récupérer l'utilisateur connecté
+// route pour recuperer l'utilisateur connecte
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 
-// Routes accessibles à tous les utilisateurs authentifiés
+// routes accessibles à tous les utilisateurs authentifiés
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/parkings', [ParkingController::class, 'index']);  // Liste des parkings
     Route::get('/parkings/{id}', [ParkingController::class, 'show']);  // Détails d'un parking
 });
 
 
-// Routes réservées aux administrateurs (ajout, modification, suppression)
+// routes reservées aux administrateurs (ajout, modification, suppression)
 Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
-    Route::post('/parkings', [ParkingController::class, 'store']); // Ajouter un parking
-    Route::put('/parkings/{id}', [ParkingController::class, 'update']); // Modifier un parking
-    Route::delete('/parkings/{id}', [ParkingController::class, 'destroy']); // Supprimer un parking
+    Route::post('/parkings', [ParkingController::class, 'store']); // ajouter un parking
+    Route::put('/parkings/{id}', [ParkingController::class, 'update']); // modifier un parking
+    Route::delete('/parkings/{id}', [ParkingController::class, 'destroy']); // supprimer un parking
 });
 
 
