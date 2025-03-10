@@ -64,9 +64,18 @@ class ReservationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $reservation = Reservation::where('user_id', Auth::id())->findOrFail($id);
+
+        $request->validate([
+            'start_time' => 'date|after:now',
+            'end_date' => 'date|after:start_time',
+        ]);
+
+        $reservation->update($request->only(['start_time', 'end_time']));
+
+        return response()->json($reservation, 200);
     }
 
     /**
