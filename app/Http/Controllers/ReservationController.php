@@ -55,9 +55,10 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $reservation = Reservation::where('user_id', Auth::id())->findOrFail($id);
+        return response()->json($reservation, 200);
     }
 
     /**
