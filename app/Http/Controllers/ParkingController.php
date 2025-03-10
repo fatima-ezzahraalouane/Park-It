@@ -39,9 +39,11 @@ class ParkingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $parking = Parking::findOrFail($id);
+
+        return response()->json($parking, 200);
     }
 
     /**
