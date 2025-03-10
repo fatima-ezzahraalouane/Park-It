@@ -25,7 +25,26 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'parking_id' => 'required|exists:parkings,id',
+            'start_time' => 'required|date|after:now',
+            'end_time' => 'required|date|after:start_time',
+        ]);
+
+        $parking = Parking::findOrFail($request->parking_id);
+
+        if ($parking->available_spots <= 0) {
+            return response()->json(['message' => "Aucune place disponible dans ce parking."], 400);
+        }
+
+        // creer la reservation
+        $reservation = Reservation::create([
+            'user_id' => Auth::id(),
+            'parking_id' => $request->parking_id,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'status' => 'confirmed',
+        ]);
     }
 
     /**
