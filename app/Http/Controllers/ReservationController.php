@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Reservation;
+use App\Models\Parking;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -11,7 +14,10 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $reservations = Reservation::where('user_id', $user->id)->get();
+
+        return response()->json($reservations, 200);
     }
 
     /**
