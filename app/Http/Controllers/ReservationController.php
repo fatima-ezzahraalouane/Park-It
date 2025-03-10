@@ -81,8 +81,16 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $reservation = Reservation::where('user_id', Auth::id())->findOrFail($id);
+
+        // liberer la place de parking
+        $parking = Parking::findOrFail($reservation->parking_id);
+        $parking->increment('available_spots');
+
+        $reservation->delete();
+
+        return response()->json(['message' => 'Réservation annulée avec succès'], 200);
     }
 }
