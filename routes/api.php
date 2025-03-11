@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // routes accessibles à tous les utilisateurs authentifiés
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/parkings', [ParkingController::class, 'index']);  // Liste des parkings
+    Route::get('/parkings/search', [ParkingController::class, 'search']); // Rechercher parking
     Route::get('/parkings/{id}', [ParkingController::class, 'show']);  // Détails d'un parking
 });
 
@@ -51,6 +52,3 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // route pour les statistiques
 Route::middleware(['auth:sanctum', 'is_admin'])->get('/admin/stats', [AdminStatsController::class, 'stats']);
-
-// route pour la recherche
-Route::middleware('auth:sanctum')->get('/parkings/search', [ParkingController::class, 'search']);
