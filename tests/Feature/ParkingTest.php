@@ -22,4 +22,18 @@ class ParkingTest extends TestCase
         $response->assertStatus(200)
                 ->assertJsonCount(3);
     }
+
+    // test pour afficher un parking specifique
+    public function test_can_view_specific_parking()
+    {
+        $parking = Parking::factory()->create([
+            'name' => 'Parking Test',
+            'location' => 'Rue Hassan II, Marrakech'
+        ]);
+
+        $response = $this->getJson("/api/parkings/{$parking->id}");
+
+        $response->assertStatus(200)
+                ->assertJson(['id' => $parking->id, 'name' => 'Parking Test']);
+    }
 }
