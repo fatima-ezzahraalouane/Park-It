@@ -21,5 +21,14 @@ class AdminStatsController extends Controller
         $totalSpots = Parking::sum('total_spots');
         $occupiedSpots = $totalSpots - $totalAvailableSpots;
         $occupancyRate = $totalSpots > 0 ? round(($occupiedSpots / $totalSpots) * 100, 2) : 0;
+
+        return response()->json([
+            'total_parkings' => $totalParkings,
+            'total_reservations' => $totalReservations,
+            'total_available_spots' => $totalAvailableSpots,
+            'cancelled_reservations' => $cancelledReservations,
+            'expired_reservations' => $expiredReservations,
+            'occupancy_rate' => $occupancyRate . '%',
+        ], 200);
     }
 }
