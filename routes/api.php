@@ -52,27 +52,5 @@ Route::middleware('auth:sanctum')->group(function () {
 // route pour les statistiques
 Route::middleware(['auth:sanctum', 'is_admin'])->get('/admin/stats', [AdminStatsController::class, 'stats']);
 
-
-
-
-
-
-
-
-
-// Route::post('/register', [AuthController::class, 'register']);
-// Route::post('/login', [AuthController::class, 'login']);
-
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::get('/parkings', [ParkingController::class, 'index']);
-//     Route::post('/parkings', [ParkingController::class, 'store']);
-//     Route::get('/parkings/{id}', [ParkingController::class, 'show']);
-//     Route::put('/parkings/{id}', [ParkingController::class, 'update']);
-//     Route::delete('/parkings/{id}', [ParkingController::class, 'destroy']);
-
-//     Route::get('/reservations', [ReservationController::class, 'index']);
-//     Route::post('/reservations', [ReservationController::class, 'store']);
-//     Route::get('/reservations/{id}', [ReservationController::class, 'show']);
-//     Route::put('/reservations/{id}', [ReservationController::class, 'update']);
-//     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy']);
-// });
+// route pour la recherche
+Route::middleware('auth:sanctum')->get('/parkings/search', [ParkingController::class, 'search']);
