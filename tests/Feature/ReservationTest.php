@@ -63,4 +63,20 @@ public function test_user_can_delete_reservation()
     $response->assertStatus(200)
             ->assertJson(['message' => 'Réservation annulée avec succès']);
 }
+
+// test pour afficher une reservation specifique
+public function test_user_can_view_specific_reservation()
+{
+    $user = User::factory()->create();
+    $parking = Parking::factory()->create();
+    $reservation = Reservation::factory()->create([
+        'user_id' => $user->id,
+        'parking_id' => $parking->id
+    ]);
+
+    $response = $this->actingAs($user, 'sanctum')->getJson("/api/reservations/{$reservation->id}");
+
+    $response->assertStatus(200)
+            ->assertJson(['id' => $reservation->id]);
+}
 }
