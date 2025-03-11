@@ -28,4 +28,23 @@ class ReservationTest extends TestCase
     $response->assertStatus(201)
             ->assertJsonStructure(['id', 'status']);
 }
+
+// test pour modifier une reservation
+public function test_user_can_update_reservation()
+{
+    $user = User::factory()->create();
+    $parking = Parking::factory()->create(['available_spots' => 5]);
+    $reservation = Reservation::factory()->create([
+        'user_id' => $user->id,
+        'parking_id' => $parking->id
+    ]);
+
+    $response = $this->actingAs($user, 'sanctum')->putJson("/api/reservations/{$reservation->id}", [
+        'start_time' => now()->addHours(2),
+        'end_time' => now()->addHours(5)
+    ]);
+
+    $response->assertStatus(200)
+            ->assertJsonFragment(['id' => $reservation->id]);
+}
 }
