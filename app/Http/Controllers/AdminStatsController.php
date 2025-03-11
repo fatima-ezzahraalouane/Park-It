@@ -13,5 +13,8 @@ class AdminStatsController extends Controller
         $totalParkings = Parking::count();
         $totalReservations = Reservation::count();
         $totalAvailableSpots = Parking::sum('available_spots');
+
+        $cancelledReservations = Reservation::where('status', 'cancelled')->count();
+        $expiredReservations = Reservation::where('status', 'expired')->count();
     }
 }
