@@ -17,7 +17,8 @@ class ParkingTest extends TestCase
     {
         Parking::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/parkings');
+        $user = User::factory()->create();
+        $response = $this->actingAs($user, 'sanctum')->getJson('/api/parkings');
 
         $response->assertStatus(200)
             ->assertJsonCount(3);
@@ -31,7 +32,8 @@ class ParkingTest extends TestCase
             'location' => 'Rue Hassan II, Marrakech'
         ]);
 
-        $response = $this->getJson("/api/parkings/{$parking->id}");
+        $user = User::factory()->create();
+        $response = $this->actingAs($user, 'sanctum')->getJson("/api/parkings/{$parking->id}");
 
         $response->assertStatus(200)
             ->assertJson(['id' => $parking->id, 'name' => 'Parking Test']);
@@ -85,6 +87,8 @@ class ParkingTest extends TestCase
     // test pour rechercher un parking par nom ou location
     public function test_can_search_parking_by_name_or_location()
     {
+        $user = User::factory()->create();
+
         Parking::factory()->create([
             'name' => 'Parking Hassan II',
             'location' => 'Rue Hassan II, Marrakech'
@@ -96,13 +100,13 @@ class ParkingTest extends TestCase
         ]);
 
         // rechercher par nom
-        $response = $this->getJson('/api/parkings/search?query=Hassan II');
+        $response = $this->actingAs($user, 'sanctum')->getJson('/api/parkings/search?query=Hassan II');
         $response->assertStatus(200)
             ->assertJsonCount(1)
             ->assertJsonFragment(['name' => 'Parking Hassan II']);
 
         // rechercher par location
-        $response = $this->getJson('/api/parkings/search?query=Casablanca');
+        $response = $this->actingAs($user, 'sanctum')->getJson('/api/parkings/search?query=Casablanca');
         $response->assertStatus(200)
             ->assertJsonCount(1)
             ->assertJsonFragment(['location' => 'Boulevard Mohamed V, Casablanca']);
