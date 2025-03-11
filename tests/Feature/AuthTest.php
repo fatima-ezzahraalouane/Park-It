@@ -17,7 +17,8 @@ class AuthTest extends TestCase
             'name' => 'Test User',
             'email' => 'test@gmail.com',
             'password' => 'password',
-            'password_confirmation' => 'password'
+            'password_confirmation' => 'password',
+            'role' => 'user'
         ]);
 
         $response->assertStatus(201);
@@ -38,13 +39,4 @@ class AuthTest extends TestCase
         $response->assertStatus(200)
                 ->assertJsonStructure(['token']);
     }
-    /**
-     * A basic feature test example.
-     */
-    // public function test_example(): void
-    // {
-    //     $response = $this->get('/');
-
-    //     $response->assertStatus(200);
-    // }
 }
