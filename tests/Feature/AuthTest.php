@@ -23,7 +23,21 @@ class AuthTest extends TestCase
         $response->assertStatus(201);
     }
 
-    
+    public function test_user_can_login()
+    {
+        $user = User::factory()->create([
+            'email' => 'test@gmail.com',
+            'password' => 'password'
+        ]);
+
+        $response = $this->postJson('/api/login', [
+            'email' => 'test@gmail.com',
+            'password' => 'password'
+        ]);
+
+        $response->assertStatus(200)
+                ->assertJsonStructure(['token']);
+    }
     /**
      * A basic feature test example.
      */
