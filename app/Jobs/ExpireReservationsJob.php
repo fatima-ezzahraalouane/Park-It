@@ -19,10 +19,7 @@ class ExpireReservationsJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    // public function __construct()
-    // {
-        
-    // }
+    public function __construct() {}
 
     /**
      * Execute the job.
@@ -33,15 +30,14 @@ class ExpireReservationsJob implements ShouldQueue
 
         // trouver toutes les reservations expirees
         $reservations = Reservation::where('status', 'confirmed')
-                ->where('end_time', '<', $now)
-                ->get();
+            ->where('end_time', '<', $now)
+            ->get();
 
         foreach ($reservations as $reservation) {
-
-            // mettre le statut de la reservation a "expired"
+            // mettre le statut de la réservation à "expired"
             $reservation->update(['status' => 'expired']);
 
-            // liberer la place de parking
+            // libérer la place de parking
             $parking = Parking::find($reservation->parking_id);
             if ($parking) {
                 $parking->increment('available_spots');
