@@ -79,4 +79,16 @@ public function test_user_can_view_specific_reservation()
     $response->assertStatus(200)
             ->assertJson(['id' => $reservation->id]);
 }
+
+// test pour voir l'historique des reservations
+public function test_user_can_view_reservation_history()
+{
+    $user = User::factory()->create();
+    Reservation::factory()->count(3)->create(['user_id' => $user->id]);
+
+    $response = $this->actingAs($user, 'sanctum')->getJson('/api/reservations/history');
+
+    $response->assertStatus(200)
+            ->assertJsonCount(3);
+}
 }
