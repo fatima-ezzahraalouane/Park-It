@@ -36,4 +36,20 @@ class ParkingTest extends TestCase
         $response->assertStatus(200)
                 ->assertJson(['id' => $parking->id, 'name' => 'Parking Test']);
     }
+
+    // test pour ajouter un nouveau parking
+    public function test_admin_can_create_parking()
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $response = $this->actingAs($admin, 'sanctum')->postJson('/api/parkings', [
+            'name' => 'Parking Test',
+            'location' => 'Rue Hassan II, Marrakech',
+            'total_spots' => 50,
+            'available_spots' => 50
+        ]);
+
+        $response->assertStatus(201)
+                ->assertJson(['name' => 'Parking Test']);
+    }
 }
