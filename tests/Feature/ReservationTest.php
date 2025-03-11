@@ -47,4 +47,20 @@ public function test_user_can_update_reservation()
     $response->assertStatus(200)
             ->assertJsonFragment(['id' => $reservation->id]);
 }
+
+// test pour supprimer une reservation
+public function test_user_can_delete_reservation()
+{
+    $user = User::factory()->create();
+    $parking = Parking::factory()->create(['available_spots' => 5]);
+    $reservation = Reservation::factory()->create([
+        'user_id' => $user->id,
+        'parking_id' => $parking->id
+    ]);
+
+    $response = $this->actingAs($user, 'sanctum')->deleteJson("/api/reservations/{$reservation->id}");
+
+    $response->assertStatus(200)
+            ->assertJson(['message' => 'Réservation annulée avec succès']);
+}
 }
