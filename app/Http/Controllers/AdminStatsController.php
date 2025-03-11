@@ -16,5 +16,10 @@ class AdminStatsController extends Controller
 
         $cancelledReservations = Reservation::where('status', 'cancelled')->count();
         $expiredReservations = Reservation::where('status', 'expired')->count();
+
+        // calcul du pourcentage d'occupation des parkings
+        $totalSpots = Parking::sum('total_spots');
+        $occupiedSpots = $totalSpots - $totalAvailableSpots;
+        $occupancyRate = $totalSpots > 0 ? round(($occupiedSpots / $totalSpots) * 100, 2) : 0;
     }
 }
