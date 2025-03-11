@@ -93,4 +93,15 @@ class ReservationController extends Controller
 
         return response()->json(['message' => 'Réservation annulée avec succès'], 200);
     }
+
+    public function history()
+    {
+        $user = Auth::user();
+
+        $reservations = Reservation::where('user_id', $user->id)
+            ->orderBy('start_time', 'desc')
+            ->get();
+
+        return response()->json($reservations, 200);
+    }
 }
