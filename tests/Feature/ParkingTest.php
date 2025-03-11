@@ -20,7 +20,7 @@ class ParkingTest extends TestCase
         $response = $this->getJson('/api/parkings');
 
         $response->assertStatus(200)
-                ->assertJsonCount(3);
+            ->assertJsonCount(3);
     }
 
     // test pour afficher un parking specifique
@@ -34,7 +34,7 @@ class ParkingTest extends TestCase
         $response = $this->getJson("/api/parkings/{$parking->id}");
 
         $response->assertStatus(200)
-                ->assertJson(['id' => $parking->id, 'name' => 'Parking Test']);
+            ->assertJson(['id' => $parking->id, 'name' => 'Parking Test']);
     }
 
     // test pour ajouter un nouveau parking
@@ -50,7 +50,7 @@ class ParkingTest extends TestCase
         ]);
 
         $response->assertStatus(201)
-                ->assertJson(['name' => 'Parking Test']);
+            ->assertJson(['name' => 'Parking Test']);
     }
 
     // test pour modifier un parking
@@ -67,7 +67,7 @@ class ParkingTest extends TestCase
         ]);
 
         $response->assertStatus(200)
-                ->assertJson(['name' => 'Updated Parking Name']);
+            ->assertJson(['name' => 'Updated Parking Name']);
     }
 
     // test pour supprimer un parking
@@ -79,6 +79,32 @@ class ParkingTest extends TestCase
         $response = $this->actingAs($admin, 'sanctum')->deleteJson("/api/parkings/{$parking->id}");
 
         $response->assertStatus(200)
-                ->assertJson(['message' => 'Parking supprimé avec succès']);
+            ->assertJson(['message' => 'Parking supprimé avec succès']);
+    }
+
+    // test pour rechercher un parking par nom ou location
+    public function test_can_search_parking_by_name_or_location()
+    {
+        Parking::factory()->create([
+            'name' => 'Parking Hassan II',
+            'location' => 'Rue Hassan II, Marrakech'
+        ]);
+
+        Parking::factory()->create([
+            'name' => 'Parking Centre',
+            'location' => 'Boulevard Mohamed V, Casablanca'
+        ]);
+
+        // rechercher par nom
+        $response = $this->getJson('/api/parkings/search?query=Hassan II');
+        $response->assertStatus(200)
+            ->assertJsonCount(1)
+            ->assertJsonFragment(['name' => 'Parking Hassan II']);
+
+        // rechercher par location
+        $response = $this->getJson('/api/parkings/search?query=Casablanca');
+        $response->assertStatus(200)
+            ->assertJsonCount(1)
+            ->assertJsonFragment(['location' => 'Boulevard Mohamed V, Casablanca']);
     }
 }
