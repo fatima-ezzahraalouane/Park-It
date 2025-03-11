@@ -69,5 +69,16 @@ class ParkingTest extends TestCase
         $response->assertStatus(200)
                 ->assertJson(['name' => 'Updated Parking Name']);
     }
-    
+
+    // test pour supprimer un parking
+    public function test_admin_can_delete_parking()
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $parking = Parking::factory()->create();
+
+        $response = $this->actingAs($admin, 'sanctum')->deleteJson("/api/parkings/{$parking->id}");
+
+        $response->assertStatus(200)
+                ->assertJson(['message' => 'Parking supprimé avec succès']);
+    }
 }
