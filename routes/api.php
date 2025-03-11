@@ -45,6 +45,7 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reservations', [ReservationController::class, 'index']); // voir ses reservations
     Route::post('/reservations', [ReservationController::class, 'store']); // reserver une place
+    Route::get('/reservations/history', [ReservationController::class, 'history']); // voir l'historique de reservation
     Route::get('/reservations/{id}', [ReservationController::class, 'show']); // voir une réservation specifique
     Route::put('/reservations/{id}', [ReservationController::class, 'update']); // modifier une reservation
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy']); // annuler une reservation
