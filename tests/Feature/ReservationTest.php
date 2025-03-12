@@ -103,4 +103,6 @@ class ReservationTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonCount(2);
     }
+
+    //tous est bien
 }
