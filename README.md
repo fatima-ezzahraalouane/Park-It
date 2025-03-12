@@ -9,8 +9,8 @@ L'objectif de ce projet est de proposer une **API REST** robuste pour la gestion
 ✅ Authentification sécurisée avec **Laravel Sanctum** 🔐  
 ✅ Recherche de places disponibles en temps réel 📍  
 ✅ Réservation et gestion des réservations 📅  
-✅ Modification et annulation des réservations 🔄 ❌
-✅ Historique des réservations pour chaque utilisateur 📖  
+✅ Modification et annulation des réservations 🔄 ❌  
+✅ Historique des réservations pour chaque utilisateur 📖     
 ✅ Gestion des parkings par les administrateurs 🏢  
 ✅ Statistiques sur les parkings 📊  
 ✅ Documentation complète avec **Postman / Swagger** 📝  
