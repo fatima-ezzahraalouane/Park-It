@@ -77,4 +77,4 @@ L'objectif principal est de développer une **API REST** robuste permettant :
 
 ---
 
-🚀 **Prêt à garer votre voiture avec Park' It ?** 🅿️💙
+### 🚀 **Prêt à garer votre voiture avec Park' It ?** 🅿️💙
